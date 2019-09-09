@@ -13,15 +13,18 @@ public class Main {
         inputScanner = new Scanner(System.in);
 
         int matrixDimension;
-        Vector<Vector<Integer>> firstMatrix, secondMatrix, resultMatrix;
+        MatrixWrapper firstMatrix, secondMatrix, resultMatrix;
 
         System.out.print("Matrix Dimension: ");
         matrixDimension = inputScanner.nextInt();
 
         M_M_W_T = new MatrixManagerWithThreads();
 
-        firstMatrix = M_M_W_T.createRandomMatrix(matrixDimension);
-        secondMatrix = M_M_W_T.createRandomMatrix(matrixDimension);
+        firstMatrix = new MatrixWrapper(matrixDimension);
+        firstMatrix.initializeRandoms();
+
+        secondMatrix = new MatrixWrapper(matrixDimension);
+        secondMatrix.initializeRandoms();
 
         M_M_W_T.printMatrix(firstMatrix);
         M_M_W_T.printMatrix(secondMatrix);

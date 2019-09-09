@@ -6,18 +6,18 @@ public class MatrixManagerWithThreads extends AbstractMatrixManager  {
 
     private int matrixDimension;
 
-    private Vector<Vector<Integer>> firstMatrix, secondMatrix, resultMatrix;
-
-    MatrixManagerWithThreads() { randomValue = new Random(); }
+    private MatrixWrapper firstMatrix, secondMatrix, resultMatrix;
 
     @Override
-    public Vector<Vector<Integer>> matrixMultiply(Vector<Vector<Integer>> firstMatrix,
-                                                  Vector<Vector<Integer>> secondMatrix) {
+    public MatrixWrapper matrixMultiply(MatrixWrapper firstMatrix,
+                                        MatrixWrapper secondMatrix) {
         matrixDimension = firstMatrix.size();
 
         this.firstMatrix = firstMatrix;
         this.secondMatrix = secondMatrix;
-        this.resultMatrix = createZeroMatrix(matrixDimension);
+
+        this.resultMatrix = new MatrixWrapper(matrixDimension);
+        this.resultMatrix.initializeZeros();
 
         ExecutorService service = Executors.newFixedThreadPool(3);
 
@@ -45,9 +45,9 @@ public class MatrixManagerWithThreads extends AbstractMatrixManager  {
             int sum = 0;
 
             for (int i = 0; i < firstMatrix.size(); i++){
-                sum += firstMatrix.get(row).get(i) * secondMatrix.get(i).get(column);
+                sum += firstMatrix.get(row, i) * secondMatrix.get(i, column);
             }
-            resultMatrix.get(row).set(column, sum);
+            resultMatrix.set(sum, row, column);
         });
     }
 }

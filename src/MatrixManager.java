@@ -1,11 +1,9 @@
 import java.util.Vector;
 
-public interface MatrixManager<T> {
+public interface MatrixManager {
 
-    Vector<Vector<T>> createRandomMatrix(int dimension);
+    void printMatrix(MatrixWrapper matrix);
 
-    void printMatrix(Vector<Vector<T>> matrix);
-
-    Vector<Vector<T>> matrixMultiply(Vector<Vector<T>> firstMatrix,
-                                     Vector<Vector<T>> secondMatrix);
+    MatrixWrapper matrixMultiply(MatrixWrapper firstMatrix,
+                                 MatrixWrapper secondMatrix);
 }

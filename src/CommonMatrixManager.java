@@ -3,33 +3,32 @@ import java.util.Vector;
 
 public class CommonMatrixManager extends AbstractMatrixManager {
 
-    CommonMatrixManager() { randomValue = new Random(); }
-
     @Override
-    public Vector<Vector<Integer>> matrixMultiply(Vector<Vector<Integer>> firstMatrix,
-                                                  Vector<Vector<Integer>> secondMatrix) {
+    public MatrixWrapper matrixMultiply(MatrixWrapper firstMatrix,
+                                        MatrixWrapper secondMatrix) {
         int matrixDimension = firstMatrix.size();
 
         //Creating and initializing zero matrix
-        Vector<Vector<Integer>> resultMatrix = createZeroMatrix(matrixDimension);
+        MatrixWrapper resultMatrix = new MatrixWrapper(matrixDimension);
+        resultMatrix.initializeZeros();
 
         //Filling result matrix
         for (int row = 0; row < matrixDimension; row++){
             for (int column = 0; column < matrixDimension; column++){
                 //Set multiply value for current cell in resultMatrix
-                resultMatrix.get(row).set(column, getMultiplyValue(firstMatrix, secondMatrix, row, column));
+                resultMatrix.set(getMultiplyValue(firstMatrix, secondMatrix, row, column), row, column);
             }
         }
         return resultMatrix;
     }
 
     //Get multiply value for current cell
-    public static int getMultiplyValue(Vector<Vector<Integer>> firstMatrix, Vector<Vector<Integer>> secondMatrix,
-                                       int row, int column) {
+    public int getMultiplyValue(MatrixWrapper firstMatrix, MatrixWrapper secondMatrix,
+                                int row, int column) {
         int sum = 0;
 
         for (int i = 0; i < firstMatrix.size(); i++){
-            sum += firstMatrix.get(row).get(i) * secondMatrix.get(i).get(column);
+            sum += firstMatrix.get(row, i) * secondMatrix.get(i, column);
         }
         return sum;
     }
