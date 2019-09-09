@@ -73,6 +73,8 @@ public class CommonMatrixManager implements MatrixManager<Integer> {
         //Creating and initializing zero matrix
         Vector<Vector<Integer>> resultMatrix = createZeroMatrix(matrixDimension);
 
+        long currentTime = System.currentTimeMillis();
+
         //Filling result matrix
         for (int row = 0; row < matrixDimension; row++){
             for (int column = 0; column < matrixDimension; column++){
@@ -80,6 +82,9 @@ public class CommonMatrixManager implements MatrixManager<Integer> {
                 resultMatrix.get(row).set(column, getMultiplyValue(firstMatrix, secondMatrix, row, column));
             }
         }
+
+        System.out.println("Multiply without threads = " + (System.currentTimeMillis() - currentTime));
+
         return resultMatrix;
     }
 

@@ -6,28 +6,10 @@ import java.util.concurrent.TimeUnit;
 
 public class MatrixManagerWithThreads implements MatrixManager<Integer> {
 
-    class MultiplyHandler implements Runnable{
-
-        private int row, column;
-        private Vector<Vector<Integer>> firstMatrix, secondMatrix, resultMatrix;
-
-        MultiplyHandler(Vector<Vector<Integer>> firstMatrix, Vector<Vector<Integer>> secondMatrix,
-                        Vector<Vector<Integer>> resultMatrix, int row, int column){
-
-            this.firstMatrix = firstMatrix;
-            this.secondMatrix = secondMatrix;
-            this.resultMatrix = resultMatrix;
-            this.row = row;
-            this.column = column;
-        }
-
-        @Override
-        public void run() {
-            getMultiplyValue(firstMatrix, secondMatrix, resultMatrix, row, column);
-        }
-    }
-
     private Random randomValue;
+
+    int matrixDimension;
+    private Vector<Vector<Integer>> firstMatrix, secondMatrix, resultMatrix;
 
     MatrixManagerWithThreads() {
 
@@ -90,24 +72,44 @@ public class MatrixManagerWithThreads implements MatrixManager<Integer> {
         System.out.println();
     }
 
+    class MultiplyHandler implements Runnable{
+
+        int from, to;
+
+        MultiplyHandler(int from, int to){
+            this.from = from;
+            this.to = to;
+        }
+
+        @Override
+        public void run() {
+
+            for (int row = from; row < to; row++){
+                for (int column = 0; column < matrixDimension; column++){
+                    //Set multiply value for current cell in resultMatrix
+                    getMultiplyValue(row, column);
+                }
+            }
+        }
+    }
+
     @Override
     public Vector<Vector<Integer>> matrixMultiply(Vector<Vector<Integer>> firstMatrix,
                                                   Vector<Vector<Integer>> secondMatrix) {
-        int matrixDimension = firstMatrix.size();
+        matrixDimension = firstMatrix.size();
 
-        //Creating and initializing zero matrix
-        Vector<Vector<Integer>> resultMatrix = createZeroMatrix(matrixDimension);
+        this.firstMatrix = firstMatrix;
+        this.secondMatrix = secondMatrix;
+        resultMatrix = createZeroMatrix(matrixDimension);
 
         //Service for track threads
         ExecutorService es = Executors.newCachedThreadPool();
 
+        long currentTime = System.currentTimeMillis();
+
         //Filling result matrix
-        for (int row = 0; row < matrixDimension; row++){
-            for (int column = 0; column < matrixDimension; column++){
-                //Executing Runnable
-                es.execute(new MultiplyHandler(firstMatrix, secondMatrix, resultMatrix, row, column));
-            }
-        }
+        es.execute(new MultiplyHandler(0, matrixDimension/2));
+        es.execute(new MultiplyHandler(matrixDimension/2, matrixDimension));
 
         //Service won`t start new threads
         es.shutdown();
@@ -118,12 +120,13 @@ public class MatrixManagerWithThreads implements MatrixManager<Integer> {
             e.printStackTrace();
         }
 
+        System.out.println("Multiply with threads = " + (System.currentTimeMillis() - currentTime));
+
         return resultMatrix;
     }
 
     //Set multiply value for current cell in resultMatrix
-    public void getMultiplyValue(Vector<Vector<Integer>> firstMatrix, Vector<Vector<Integer>> secondMatrix,
-                                       Vector<Vector<Integer>> resultMatrix, int row, int column) {
+    public void getMultiplyValue(int row, int column) {
         int sum = 0;
 
         for (int i = 0; i < firstMatrix.size(); i++){
