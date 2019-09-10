@@ -1,10 +1,11 @@
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Vector;
 
 public class FileUtils {
 
-    public MatrixWrapper readMatrixFromStream(InputStream inputStream) throws IOException {
+    public static MatrixWrapper getMatrixFromStream(InputStream inputStream) throws IOException {
 
         MatrixWrapper matrix; //Matrix from file
 
@@ -43,5 +44,18 @@ public class FileUtils {
         matrix.fillUsingCollection(values);
 
         return matrix;
+    }
+
+    public static void writeMatrixToFile(MatrixWrapper matrix, String fileName) throws IOException {
+
+        FileWriter file = new FileWriter(fileName);
+
+        for (int row = 0; row < matrix.size(); row++){
+            for (int column = 0; column < matrix.size(); column++){
+                file.write(matrix.get(row, column) + " ");
+            }
+            file.write("\n");
+        }
+        file.close();
     }
 }

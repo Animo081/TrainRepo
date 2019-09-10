@@ -6,7 +6,6 @@ import java.io.InputStream;
 public class Main {
 
     public static MatrixManager M_M_W_T;
-    public static FileUtils fileUtils;
 
     public static InputStream inputStream;
 
@@ -15,13 +14,12 @@ public class Main {
         MatrixWrapper firstMatrix, secondMatrix, resultMatrix;
 
         M_M_W_T = new MatrixManagerWithThreads();
-        fileUtils = new FileUtils();
 
-        inputStream = new BufferedInputStream(new FileInputStream("files/firstMatrix.txt"));
-        firstMatrix = fileUtils.readMatrixFromStream(inputStream);
+        inputStream = new FileInputStream("files/firstMatrix.txt");
+        firstMatrix = FileUtils.getMatrixFromStream(inputStream);
 
-        inputStream = new BufferedInputStream(new FileInputStream("files/secondMatrix.txt"));
-        secondMatrix = fileUtils.readMatrixFromStream(inputStream);
+        inputStream = new FileInputStream("files/secondMatrix.txt");
+        secondMatrix = FileUtils.getMatrixFromStream(inputStream);
 
         M_M_W_T.printMatrix(firstMatrix);
         M_M_W_T.printMatrix(secondMatrix);
@@ -29,5 +27,7 @@ public class Main {
         resultMatrix = M_M_W_T.matrixMultiply(firstMatrix,secondMatrix);
 
         M_M_W_T.printMatrix(resultMatrix);
+
+        FileUtils.writeMatrixToFile(resultMatrix, "files/resultMatrix.txt");
     }
 }
