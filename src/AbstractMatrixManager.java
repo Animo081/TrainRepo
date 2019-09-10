@@ -1,5 +1,3 @@
-import java.util.Vector;
-
 public abstract class AbstractMatrixManager implements MatrixManager{
 
     @Override

@@ -1,5 +1,3 @@
-import java.util.Vector;
-
 public interface MatrixManager {
 
     void printMatrix(MatrixWrapper matrix);
