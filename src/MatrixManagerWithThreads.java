@@ -11,6 +11,9 @@ public class MatrixManagerWithThreads extends AbstractMatrixManager  {
     @Override
     public MatrixWrapper matrixMultiply(MatrixWrapper firstMatrix,
                                         MatrixWrapper secondMatrix) {
+
+        if (firstMatrix.size() != secondMatrix.size()) return null;
+
         matrixDimension = firstMatrix.size();
 
         this.firstMatrix = firstMatrix;

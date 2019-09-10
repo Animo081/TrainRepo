@@ -3,6 +3,9 @@ public class CommonMatrixManager extends AbstractMatrixManager {
     @Override
     public MatrixWrapper matrixMultiply(MatrixWrapper firstMatrix,
                                         MatrixWrapper secondMatrix) {
+
+        if (firstMatrix.size() != secondMatrix.size()) return null;
+
         int matrixDimension = firstMatrix.size();
 
         //Creating and initializing zero matrix

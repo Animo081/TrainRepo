@@ -1,29 +1,27 @@
-import java.util.Scanner;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class Main {
 
-    public static Scanner inputScanner;
-
     public static MatrixManager M_M_W_T;
-    public static MatrixManager C_M_M;
+    public static FileUtils fileUtils;
 
-    public static void main(String args[]){
+    public static InputStream inputStream;
 
-        inputScanner = new Scanner(System.in);
+    public static void main(String args[]) throws IOException {
 
-        int matrixDimension;
         MatrixWrapper firstMatrix, secondMatrix, resultMatrix;
 
-        System.out.print("Matrix Dimension: ");
-        matrixDimension = inputScanner.nextInt();
-
         M_M_W_T = new MatrixManagerWithThreads();
+        fileUtils = new FileUtils();
 
-        firstMatrix = new MatrixWrapper(matrixDimension);
-        firstMatrix.initializeRandoms();
+        inputStream = new BufferedInputStream(new FileInputStream("files/firstMatrix.txt"));
+        firstMatrix = fileUtils.readMatrixFromStream(inputStream);
 
-        secondMatrix = new MatrixWrapper(matrixDimension);
-        secondMatrix.initializeRandoms();
+        inputStream = new BufferedInputStream(new FileInputStream("files/secondMatrix.txt"));
+        secondMatrix = fileUtils.readMatrixFromStream(inputStream);
 
         M_M_W_T.printMatrix(firstMatrix);
         M_M_W_T.printMatrix(secondMatrix);
@@ -31,11 +29,5 @@ public class Main {
         resultMatrix = M_M_W_T.matrixMultiply(firstMatrix,secondMatrix);
 
         M_M_W_T.printMatrix(resultMatrix);
-
-        C_M_M = new CommonMatrixManager();
-
-        resultMatrix = C_M_M.matrixMultiply(firstMatrix,secondMatrix);
-
-        C_M_M.printMatrix(resultMatrix);
     }
 }
