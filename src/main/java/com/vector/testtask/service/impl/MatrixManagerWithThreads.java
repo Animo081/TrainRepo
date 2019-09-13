@@ -1,7 +1,7 @@
-package service.impl;
+package com.vector.testtask.service.impl;
 
-import dto.MatrixMultiplyData;
-import dto.MatrixWrapper;
+import com.vector.testtask.dto.MatrixMultiplyData;
+import com.vector.testtask.dto.MatrixWrapper;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,7 +40,7 @@ public class MatrixManagerWithThreads extends AbstractMatrixManager {
         //Service won`t start new threads
         service.shutdown();
         try {
-            //Main thread is waiting until all threads finished or timeout
+            //com.vector.testtask.Main thread is waiting until all threads finished or timeout
             service.awaitTermination(1, TimeUnit.DAYS);
         } catch (InterruptedException e) {
             e.printStackTrace();

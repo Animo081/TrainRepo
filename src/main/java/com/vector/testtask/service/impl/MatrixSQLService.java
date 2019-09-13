@@ -1,7 +1,7 @@
-package service.impl;
+package com.vector.testtask.service.impl;
 
-import dto.MatrixMultiplyData;
-import dto.MatrixWrapper;
+import com.vector.testtask.dto.MatrixMultiplyData;
+import com.vector.testtask.dto.MatrixWrapper;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;

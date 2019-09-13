@@ -1,7 +1,7 @@
-package service;
+package com.vector.testtask.service;
 
-import dto.MatrixMultiplyData;
-import dto.MatrixWrapper;
+import com.vector.testtask.dto.MatrixMultiplyData;
+import com.vector.testtask.dto.MatrixWrapper;
 
 public interface MatrixManager {
 

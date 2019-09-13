@@ -1,9 +1,4 @@
-import javax.security.auth.login.FailedLoginException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+package com.vector.testtask;
 
 public class AccountManager {
 

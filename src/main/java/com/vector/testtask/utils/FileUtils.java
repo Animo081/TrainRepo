@@ -1,6 +1,6 @@
-package utils;
+package com.vector.testtask.utils;
 
-import dto.MatrixWrapper;
+import com.vector.testtask.dto.MatrixWrapper;
 
 import java.io.FileWriter;
 import java.io.IOException;

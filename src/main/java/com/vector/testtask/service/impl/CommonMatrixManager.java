@@ -1,25 +1,38 @@
+package com.vector.testtask.service.impl;
+
+import com.vector.testtask.dto.MatrixMultiplyData;
+import com.vector.testtask.dto.MatrixWrapper;
+
 public class CommonMatrixManager extends AbstractMatrixManager {
 
     @Override
-    public MatrixWrapper matrixMultiply(MatrixWrapper firstMatrix,
-                                        MatrixWrapper secondMatrix) {
+    public MatrixMultiplyData matrixMultiply(MatrixWrapper firstMatrix,
+                                             MatrixWrapper secondMatrix) {
 
         if (firstMatrix.size() != secondMatrix.size()) return null;
 
         int matrixDimension = firstMatrix.size();
 
-        //Creating and initializing zero matrix
         MatrixWrapper resultMatrix = new MatrixWrapper(matrixDimension);
         resultMatrix.initializeZeros();
 
-        //Filling result matrix
+        long startTime = System.currentTimeMillis();
+
         for (int row = 0; row < matrixDimension; row++){
             for (int column = 0; column < matrixDimension; column++){
                 //Set multiply value for current cell in resultMatrix
                 resultMatrix.set(getMultiplyValue(firstMatrix, secondMatrix, row, column), row, column);
             }
         }
-        return resultMatrix;
+
+        MatrixMultiplyData result = new MatrixMultiplyData(
+                firstMatrix,
+                secondMatrix,
+                resultMatrix,
+                "without_threads",
+                System.currentTimeMillis() - startTime
+        );
+        return result;
     }
 
     //Get multiply value for current cell

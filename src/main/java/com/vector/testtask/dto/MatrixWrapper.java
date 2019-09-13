@@ -1,3 +1,5 @@
+package com.vector.testtask.dto;
+
 import java.util.AbstractCollection;
 import java.util.Random;
 import java.util.Vector;
@@ -9,7 +11,9 @@ public class MatrixWrapper {
     private int dimension;
     private Vector<Vector<Integer>> matrix;
 
-    MatrixWrapper(int dimension) {
+    private long matrixId;
+
+    public MatrixWrapper(int dimension) {
 
         randomValue = new Random();
 
@@ -77,7 +81,22 @@ public class MatrixWrapper {
 
     public int size() { return matrix.size(); }
 
-    public int get(int row, int column) { return matrix.get(row).get(column); }
-
     public void set(int element, int row, int column) { matrix.get(row).set(column, element); }
+    public void setId(long id) { this.matrixId = id; }
+
+    public int get(int row, int column) { return matrix.get(row).get(column); }
+    public long getId() { return matrixId; }
+
+    public String toString() {
+
+        String stringMatrix = "";
+
+        for (int row = 0; row < dimension; row++){
+            for (int column = 0; column < dimension; column++){
+                stringMatrix += get(row, column) + " ";
+            }
+            stringMatrix += "\n";
+        }
+        return stringMatrix;
+    }
 }

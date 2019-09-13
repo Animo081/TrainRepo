@@ -1,4 +1,9 @@
-public abstract class AbstractMatrixManager implements MatrixManager{
+package com.vector.testtask.service.impl;
+
+import com.vector.testtask.dto.MatrixWrapper;
+import com.vector.testtask.service.MatrixManager;
+
+public abstract class AbstractMatrixManager implements MatrixManager {
 
     @Override
     public void printMatrix(MatrixWrapper matrix) {
@@ -11,9 +16,4 @@ public abstract class AbstractMatrixManager implements MatrixManager{
         }
         System.out.println();
     }
-
-    @Override
-    public abstract MatrixWrapper matrixMultiply(MatrixWrapper firstMatrix,
-                                                 MatrixWrapper secondMatrix);
-
 }

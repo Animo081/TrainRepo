@@ -1,4 +1,4 @@
-package service.impl;
+package com.vector.testtask.service.impl;
 
 import java.io.*;
 import java.sql.Connection;
