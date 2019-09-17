@@ -2,6 +2,7 @@ package com.vector.testtask.service.impl;
 
 import com.vector.testtask.dto.MatrixMultiplyData;
 import com.vector.testtask.dto.MatrixWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -37,10 +38,8 @@ public class MatrixManagerWithThreads extends AbstractMatrixManager {
             }
         }
 
-        //Service won`t start new threads
         service.shutdown();
         try {
-            //com.vector.testtask.Main thread is waiting until all threads finished or timeout
             service.awaitTermination(1, TimeUnit.DAYS);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -56,7 +55,6 @@ public class MatrixManagerWithThreads extends AbstractMatrixManager {
         return result;
     }
 
-    //Get multiply value for current cell
     public void getMultiplyValue(ExecutorService service, int row, int column) {
 
         service.execute(() -> {

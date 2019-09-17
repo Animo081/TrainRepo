@@ -1,5 +1,8 @@
 package com.vector.testtask.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,23 +13,24 @@ public class SQLConnection {
 
     private static Connection connection;
 
-    private SQLConnection() {
-    }
+    @Value("${spring.datasource.url}")
+    private String url;
 
-    public static Connection getConnection() throws ClassNotFoundException, SQLException, IOException {
+    @Value("${spring.datasource.username}")
+    private String username;
+
+    @Value("${spring.datasource.password}")
+    private String password;
+
+    public Connection getConnection() throws ClassNotFoundException, SQLException, IOException {
 
         if (connection == null) {
             Class.forName("com.mysql.jdbc.Driver");
 
-            InputStream inputStream = new FileInputStream("config.properties");
-
-            Properties properties = new Properties();
-            properties.load(inputStream);
-
             connection = DriverManager.getConnection(
-                    properties.getProperty("url"),
-                    properties.getProperty("username"),
-                    properties.getProperty("password")
+                    url,
+                    username,
+                    password
             );
             connection.setAutoCommit(false);
         }

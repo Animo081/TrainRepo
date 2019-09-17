@@ -2,6 +2,7 @@ package com.vector.testtask.service.impl;
 
 import com.vector.testtask.dto.MatrixMultiplyData;
 import com.vector.testtask.dto.MatrixWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -31,9 +32,12 @@ public class MatrixSQLService {
             ") VALUES (?,?,?,?,?,?)";
 
 
+    @Autowired
+    private SQLConnection sqlConnection;
+
     public void sendMultiplyResultToDB(MatrixMultiplyData result) throws SQLException, ClassNotFoundException, IOException {
 
-        try (PreparedStatement insertRecord = SQLConnection.getConnection().prepareStatement(INSERT_RECORD_STATEMENT)) {
+        try (PreparedStatement insertRecord = sqlConnection.getConnection().prepareStatement(INSERT_RECORD_STATEMENT)) {
 
             result.firstMatrix.setId(selectMatrixId(result.firstMatrix));
             result.secondMatrix.setId(selectMatrixId(result.secondMatrix));
@@ -48,22 +52,22 @@ public class MatrixSQLService {
 
             insertRecord.executeUpdate();
 
-            SQLConnection.getConnection().commit();
+            sqlConnection.getConnection().commit();
         } catch (SQLException | ClassNotFoundException | IOException e) {
             e.printStackTrace();
-            SQLConnection.getConnection().rollback();
+            sqlConnection.getConnection().rollback();
         }
     }
 
     private long selectMatrixId(MatrixWrapper matrix) {
 
-        try (PreparedStatement selectMatrixId = SQLConnection.getConnection().prepareStatement(SELECT_MATRIX_ID_STATEMENT)) {
+        try (PreparedStatement selectMatrixId = sqlConnection.getConnection().prepareStatement(SELECT_MATRIX_ID_STATEMENT)) {
 
             selectMatrixId.setString(1, matrix.toString());
             ResultSet result = selectMatrixId.executeQuery();
 
             if (!result.next()) {
-                PreparedStatement insertMatrix = SQLConnection.getConnection().prepareStatement(INSERT_MATRIX_STATEMENT);
+                PreparedStatement insertMatrix = sqlConnection.getConnection().prepareStatement(INSERT_MATRIX_STATEMENT);
                 insertMatrix.setString(1, matrix.toString());
 
                 insertMatrix.executeUpdate();

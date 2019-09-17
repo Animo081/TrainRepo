@@ -19,7 +19,7 @@ public class MatrixWrapper {
 
         this.dimension = dimension;
 
-        this.matrix = new Vector<>(dimension);
+        this.matrix = new Vector<Vector<Integer>>(dimension);
         initializeRows(this.matrix);
     }
 
@@ -81,10 +81,16 @@ public class MatrixWrapper {
 
     public int size() { return matrix.size(); }
 
+    public void setDimension(int dimension) { this.dimension = dimension; }
+
+    public int getDimension() { return dimension; }
+
     public void set(int element, int row, int column) { matrix.get(row).set(column, element); }
+
     public void setId(long id) { this.matrixId = id; }
 
     public int get(int row, int column) { return matrix.get(row).get(column); }
+
     public long getId() { return matrixId; }
 
     public String toString() {

@@ -6,29 +6,34 @@ import com.vector.testtask.service.MatrixManager;
 import com.vector.testtask.service.impl.CommonMatrixManager;
 import com.vector.testtask.service.impl.MatrixSQLService;
 import com.vector.testtask.utils.FileUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.PropertySource;
 
-import javax.security.auth.login.FailedLoginException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
-public class Main {
+@ComponentScan(basePackages = "com.vector.testtask")
+@PropertySource(value = {"classpath:application.properties"})
+public class TrainingApplication {
 
+    private static ApplicationContext applicationContext;
 
-
-    public static MatrixManager M_M_W_T;
     public static MatrixSQLService matrixSQLService;
 
     public static InputStream inputStream;
 
-    public static void main(String args[]) throws IOException, ClassNotFoundException, SQLException, NoSuchAlgorithmException, FailedLoginException {
+    public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
 
         MatrixWrapper firstMatrix, secondMatrix;
         MatrixMultiplyData result;
 
-        M_M_W_T = new CommonMatrixManager();
+        applicationContext = new AnnotationConfigApplicationContext(TrainingApplication.class);
+
+        MatrixManager manager = applicationContext.getBean(CommonMatrixManager.class);
 
         inputStream = new FileInputStream("files/firstMatrix.txt");
         firstMatrix = FileUtils.getMatrixFromStream(inputStream);
@@ -36,11 +41,9 @@ public class Main {
         inputStream = new FileInputStream("files/secondMatrix.txt");
         secondMatrix = FileUtils.getMatrixFromStream(inputStream);
 
-        result = M_M_W_T.matrixMultiply(firstMatrix,secondMatrix);
+        result = manager.matrixMultiply(firstMatrix,secondMatrix);
 
-        //com.vector.testtask.utils.FileUtils.writeMatrixToFile(resultMatrix, "files/resultMatrix.txt");
-
-        matrixSQLService = new MatrixSQLService();
+        matrixSQLService = applicationContext.getBean(MatrixSQLService.class);
 
         matrixSQLService.sendMultiplyResultToDB(result);
     }

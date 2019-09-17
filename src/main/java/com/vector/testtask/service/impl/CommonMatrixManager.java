@@ -2,6 +2,7 @@ package com.vector.testtask.service.impl;
 
 import com.vector.testtask.dto.MatrixMultiplyData;
 import com.vector.testtask.dto.MatrixWrapper;
+import org.springframework.context.annotation.Bean;
 
 public class CommonMatrixManager extends AbstractMatrixManager {
 
@@ -35,7 +36,6 @@ public class CommonMatrixManager extends AbstractMatrixManager {
         return result;
     }
 
-    //Get multiply value for current cell
     public int getMultiplyValue(MatrixWrapper firstMatrix, MatrixWrapper secondMatrix,
                                 int row, int column) {
         int sum = 0;
